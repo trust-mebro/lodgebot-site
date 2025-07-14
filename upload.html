@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload File</title>
+  <link rel="stylesheet" href="upload.css" />
+</head>
+<body>
+  <div class="left">
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="left-side">
+        <label for="fileUpload"><h2>Upload Your File</h2></label>
+        <input type="file" id="fileUpload" accept=".txt" />
+      </div>
+      <div class="right-side" id="user-info"></div>
+    </div>
+
+    <!-- Output section -->
+    <pre id="output"></pre>
+
+
+  </div>
+
+  <div class="right">
+    <iframe src="https://my.spline.design/worldplanet-5iVGtqsdWEDPoEwuO1lR1fN7/" frameborder="0"></iframe>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const defaultPic = "https://via.placeholder.com/60x60?text=👤";
+
+    console.log("User picture:", user?.picture); // Debug log
+
+    if (user) {
+      const profilePic = user.picture && user.picture.startsWith('http') 
+        ? user.picture 
+        : "https://via.placeholder.com/60x60?text=👤";
+
+
+      document.getElementById("user-info").innerHTML = `
+        <img src="${profilePic}" alt="User Avatar" width="60" style="border-radius:50%;" /><br/>
+        <strong>${user.name}</strong><br/>
+        <small>${user.email}</small>
+      `;
+    } else {
+      document.getElementById("user-info").innerText = "Not logged in";
+    }
+  </script>
+
+
+</body>
+</html>

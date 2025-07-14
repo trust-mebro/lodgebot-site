@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LodgeBot Login</title>
+  <link rel="stylesheet" href="style.css?v=12345" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- Spline Background -->
+  <div class="spline-container">
+    <iframe src="https://my.spline.design/robotfollowcursorforlandingpage-83Tdd6IQRKD5txZFI4BjRTEE/" frameborder="0"></iframe>
+  </div>
+
+  <!-- Overlay: Logo + Login -->
+  <div class="overlay">
+    <img src="logo2.png" alt="LodgeBot Logo" class="logo" />
+
+    <div class="login-box">
+      <div id="g_id_onload"
+           data-client_id="597306644220-gqj84g4pu8q44um6ccvvujkpcnpqtjoc.apps.googleusercontent.com"
+           data-callback="handleCredentialResponse"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="filled_black"
+           data-text="sign_in_with"
+           data-shape="rectangular"
+           data-logo_alignment="left"
+           data-width="300">
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrollable Cards Section -->
+  <!-- Scrollable Cards Area -->
+  <div class="card-section-wrapper">
+    <div class="card-scroll-wrapper">
+
+      <!-- CARD 1 -->
+      <div class="card">
+        <div class="card-content">
+          <h2>HELLO! Welcome to LodgeBot</h2>
+          <ul>
+            <li>➤ LodgeBot is an intelligent automation tool designed to streamline the LC (Letter of Credit) document lodgement process. It extracts key data from scanned trade documents with high accuracy using OCR.</li>
+            <li>➤ By minimizing manual intervention, LodgeBot reduces errors and accelerates compliance workflows.</li>
+            <li>➤ Ideal for banks and exporters, it ensures faster, smarter, and more reliable lodgement.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card">
+        <div class="card-content">
+          <h2>HOW IT WORKS</h2>
+          <p>➤ Initialises ADB commands to use phone and scans to make a PDF file.</p>
+          <p>➤ Runs the raw OCR text through several layers of pyTesseract to output a `.txt` file.</p>
+          <p>➤ Uploads the file to browser for output and saving.</p>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card">
+        <div class="card-content">
+          <h2>STEPS TO USE</h2>
+          <p>➤ Login through a valid Gmail ID.</p>
+          <p>➤ Press Start.</p>
+          <p>➤ Wait for a few seconds.</p>
+          <p>➤ Upload the newly created `.txt` file from your PC.</p>
+          <p>➤ Viola! The extracted info will appear below.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- Scripts -->
+  <script>
+    function handleCredentialResponse(response) {
+      const data = parseJwt(response.credential);
+      console.log("Google User Info:", data);
+      sessionStorage.setItem("user", JSON.stringify(data));
+      window.location.href = "upload.html";
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join(''));
+      return JSON.parse(jsonPayload);
+    }
+
+    // Scroll animation
+    const cards = document.querySelectorAll('.card');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.remove('show');
+        }
+      });
+    }, { threshold: 0.6 });
+
+  cards.forEach(card => observer.observe(card));
+
+  cards.forEach(card => observer.observe(card));
+  </script>
+</body>
+</html>
