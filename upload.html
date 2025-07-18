@@ -7,18 +7,43 @@
   <link rel="stylesheet" href="upload.css" />
 </head>
 <body>
+  
+
+<script>
+function runADB() {
+  fetch('/run-adb')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("output").textContent = data.output || data.error;
+    })
+    .catch(err => {
+      document.getElementById("output").textContent = "Fetch Error:\n" + err;
+    });
+}
+</script>
+
+
+
   <div class="left">
     <!-- Top bar -->
-    <div class="top-bar">
-      <div class="left-side">
-        <label for="fileUpload"><h2>Upload Your File</h2></label>
-        <input type="file" id="fileUpload" accept=".txt" />
+    <div class="top-bar-wrapper">
+      <div class="top-bar">
+        <div class="left-side">
+          <label for="fileUpload"><h2>Upload Your File</h2></label>
+          <input type="file" id="fileUpload" accept=".txt" />
+        </div>
+        <div class="right-side" id="user-info"></div>
       </div>
-      <div class="right-side" id="user-info"></div>
+      <div class="button-container">
+        <button class="glass-button" onclick="runADB()">Run ADB</button>
+      </div>
     </div>
+
+
 
     <!-- Output section -->
     <pre id="output"></pre>
+    
 
 
   </div>
@@ -29,26 +54,26 @@
 
   <script src="script.js"></script>
   <script>
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    const defaultPic = "https://via.placeholder.com/60x60?text=👤";
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = JSON.parse(sessionstorage.getItem("user"));
+      const defaultPic = "https://via.placeholder.com/60x60?text=👤";
 
-    console.log("User picture:", user?.picture); // Debug log
+      if (user) {
+        const profilePic = user.picture && user.picture.startsWith('http') 
+          ? user.picture 
+          : defaultPic;
 
-    if (user) {
-      const profilePic = user.picture && user.picture.startsWith('http') 
-        ? user.picture 
-        : "https://via.placeholder.com/60x60?text=👤";
-
-
-      document.getElementById("user-info").innerHTML = `
-        <img src="${profilePic}" alt="User Avatar" width="60" style="border-radius:50%;" /><br/>
-        <strong>${user.name}</strong><br/>
-        <small>${user.email}</small>
-      `;
-    } else {
-      document.getElementById("user-info").innerText = "Not logged in";
-    }
+        document.getElementById("user-info").innerHTML = `
+          <img src="${profilePic}" alt="User Avatar" width="60" style="border-radius:50%;" /><br/>
+          <strong>${user.name}</strong><br/>
+          <small>${user.email}</small>
+        `;
+      } else {
+        document.getElementById("user-info").innerText = "Not logged in";
+      }
+    });
   </script>
+
 
 
 </body>

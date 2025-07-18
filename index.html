@@ -86,7 +86,8 @@
       const data = parseJwt(response.credential);
       console.log("Google User Info:", data);
       sessionStorage.setItem("user", JSON.stringify(data));
-      window.location.href = "upload.html";
+      window.location.href = "http://127.0.0.1:5000";
+
     }
 
     function parseJwt(token) {
